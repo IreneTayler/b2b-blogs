@@ -33,20 +33,42 @@ export const ArticleListPage: React.FC = () => {
   };
 
   if (loading) {
-    return <p>Loading articles…</p>;
+    return (
+      <section className="page">
+        <div className="state-message loading">
+          <div className="spinner" />
+          <span>Loading articles…</span>
+        </div>
+      </section>
+    );
   }
 
   if (error) {
-    return <p className="error">{error}</p>;
+    return (
+      <section className="page">
+        <div className="state-message error">{error}</div>
+      </section>
+    );
   }
 
   if (articles.length === 0) {
-    return <p>No articles yet. Be the first to create one!</p>;
+    return (
+      <section className="page">
+        <div className="page-header">
+          <h2>Articles</h2>
+          <p className="page-sub">Stories and updates.</p>
+        </div>
+        <div className="state-message empty">No articles yet. Be the first to create one!</div>
+      </section>
+    );
   }
 
   return (
-    <section>
-      <h2>Articles</h2>
+    <section className="page">
+      <div className="page-header">
+        <h2>Articles</h2>
+        <p className="page-sub">Stories and updates.</p>
+      </div>
       <div className="card-list">
         {articles.map((article) => (
           <article key={article.id} className="card">

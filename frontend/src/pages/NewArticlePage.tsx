@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createArticle } from '../api';
 import type { Article } from '../api';
+import { useToast } from '../ToastContext';
 
 export const NewArticlePage: React.FC = () => {
   const navigate = useNavigate();
+  const toast = useToast();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -19,17 +21,21 @@ export const NewArticlePage: React.FC = () => {
         title: title.trim(),
         content: content.trim(),
       });
+      toast.success('Article published!');
       navigate(`/articles/${article.id}`);
     } catch (e) {
-      alert('Failed to create article. Please try again.');
+      toast.error("Couldn't publish article. Please try again.");
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <section>
-      <h2>New Article</h2>
+    <section className="page">
+      <div className="page-header">
+        <h2>New Article</h2>
+        <p className="page-sub">Write and publish a new post.</p>
+      </div>
       <form className="form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">Title</label>

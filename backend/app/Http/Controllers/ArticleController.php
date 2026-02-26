@@ -30,7 +30,8 @@ class ArticleController extends Controller
             'content' => ['required', 'string'],
         ]);
 
-        $article = Article::create($validated);
+        $user = $request->attributes->get('api_user');
+        $article = Article::create([...$validated, 'user_id' => $user->id]);
 
         return response()->json($article, Response::HTTP_CREATED);
     }

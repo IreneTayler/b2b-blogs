@@ -1,0 +1,8 @@
+{
+  "name": "b2b-blogs",
+  "private": true,
+  "description": "Start backend (Docker) and frontend from project root",
+  "scripts": {
+    "start": "node scripts/start.js"
+  }
+}

@@ -11,17 +11,25 @@ class CommentController extends Controller
 {
     /**
      * Store a newly created comment for the given article.
+     * Members may not comment on their own articles.
      */
     public function store(Request $request, Article $article)
     {
+        $user = $request->attributes->get('api_user');
+        if ($article->user_id && (int) $article->user_id === (int) $user->id) {
+            return response()->json(
+                ['message' => 'You cannot comment on your own article.'],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
         $validated = $request->validate([
-            'author_name' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
         ]);
 
         $comment = Comment::create([
             'article_id' => $article->id,
-            'author_name' => $validated['author_name'],
+            'author_name' => $user->name,
             'content' => $validated['content'],
         ]);
 
